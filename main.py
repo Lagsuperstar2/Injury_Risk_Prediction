@@ -12,30 +12,30 @@ print("NFL Data:\n", nfl_df.head(), "\n")
 print("MLB Data:\n", mlb_df.head(), "\n")
 print("Injury Labels:\n", injury_df.head())
 
-# Step 1: Add sport_type to each dataframe
+# Add sport_type to each dataframe
 nba_df["sport_type"] = "NBA"
 nfl_df["sport_type"] = "NFL"
 mlb_df["sport_type"] = "MLB"
 
-# Step 2: Rename workload columns to a common 'workload'
+# Rename workload columns
 nba_df = nba_df.rename(columns={"minutes_played": "workload"})
 nfl_df = nfl_df.rename(columns={"snaps": "workload"})
 mlb_df = mlb_df.rename(columns={"innings_pitched": "workload"})
 
-# Step 3: Combine all datasets
+# Combine datasets
 combined_df = pd.concat([nba_df, nfl_df, mlb_df], ignore_index=True)
 
-# Step 4: Merge with injury labels
+# Merge with injury labels
 merged_df = pd.merge(combined_df, injury_df, on=["player_id", "season"], how="left")
 
-# Step 5: Preview the final merged data
+# Preview final merged data
 print("\nCombined Data with Injury Labels:\n")
 print(merged_df.head())
 
-# Drop rows where 'injured' is missing (unlabeled data)
+# Drop 'injured' missing rows
 clean_df = merged_df.dropna(subset=["injured"])
 
-# Convert 'injured' from float to int
+# Convert 'injured' float to int
 clean_df["injured"] = clean_df["injured"].astype(int)
 
 # Preview cleaned data
@@ -45,13 +45,13 @@ print(clean_df.head())
 # One-hot encode 'position' and 'sport_type'
 encoded_df = pd.get_dummies(clean_df, columns=["position", "sport_type"])
 
-# Preview the final encoded dataframe
+# Preview final encoded dataframe
 print("\nEncoded Data:\n")
 print(encoded_df.head())
 
 from sklearn.model_selection import train_test_split
 
-# Drop non-numeric and ID columns from features
+# Drop non-numeric and ID columns features
 X = encoded_df.drop(columns=["player_id", "season", "injured"])
 y = encoded_df["injured"]
 
