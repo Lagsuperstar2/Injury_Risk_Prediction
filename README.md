@@ -1,29 +1,25 @@
 # Injury_Risk_Prediction
 
-This project predicts athlete injury risk using supervised machine learning models applied to player workload data across the NBA, NFL, and MLB.
+This project predicts athlete injury risk using supervised machine learning applied to player workload data across the NBA, NFL, and MLB.
 
 ## Project Overview
 
-Using real player workload metrics (e.g., minutes played, snaps, innings pitched, rest days, and age), this model attempts to predict injury occurrence.  
-The goal is to help sports organizations and trainers proactively identify at-risk athletes and make informed decisions.
+Using sport-specific workload metrics (e.g., minutes played, snaps, pitch-based workload, rest days, and age), this model predicts whether an athlete is at risk of injury.  
+The goal is to help sports organizations and trainers make data-driven decisions to reduce injury likelihood.
 
-##  Technologies Used
+## Technologies Used
 
 - **Python** (3.13)
-- **pandas**, **NumPy** — data cleaning and manipulation
-- **scikit-learn**, **XGBoost** — building classification models
-- **matplotlib**, **seaborn** — performance visualization
-- **Tableau** — interactive charts and dashboard visualizations
+- **pandas**, **NumPy** — data cleaning and manipulation  
+- **scikit-learn** — building and evaluating the classification model  
+- **Tableau** — creating visualizations and dashboards  
 - **VS Code** — development environment
 
-## Machine Learning Models
+## Machine Learning Model
 
-The model compares three supervised classification methods:
-- **Logistic Regression**
-- **Random Forest**
-- **XGBoost**
+- **Logistic Regression** (with class balancing and feature scaling)
 
-Evaluation metrics:
+**Evaluation Metrics**:
 - Accuracy
 - Precision
 - Recall
@@ -32,44 +28,45 @@ Evaluation metrics:
 
 ## Data
 
-- Synthetic but realistically structured data was used to simulate workload patterns in each league.
+- **Synthetic but realistic datasets** representing workload and injury patterns across three sports.
 - Dataset includes:
   - **NBA**: Minutes played, age, rest days
-  - **NFL**: Snaps, age, rest days
-  - **MLB**: Innings pitched, age, rest days
+  - **NFL**: Snaps (converted to workload), age, rest days
+  - **MLB**: Pitch-based workload (estimated from innings pitched), age, rest days
   - **Injury Labels** (binary classification: injured = 1, not injured = 0)
 
-> Note: Real datasets will be integrated in the next iteration.
+> Note: Real-world datasets will be integrated in future iterations.
 
-## How it Works
+## How It Works
 
-1. Loads and merges sport-specific workload data
-2. Cleans and encodes features
-3. Trains models to classify injury risk
-4. Evaluates performance using ROC-AUC and other metrics
+1. Loads and merges league-specific workload data
+2. Standardizes column names and cleans missing values
+3. Adds new features:
+   - **workload_per_age** = workload ÷ age
+   - **rest_per_workload** = rest days ÷ (workload + 1)
+4. Encodes categorical variables (`sport_type`, `position`)
+5. Splits into training/testing sets with stratification
+6. Scales numeric features
+7. Trains a Logistic Regression model
+8. Evaluates performance using multiple metrics
 
-## Results (So Far)
+## Results (Final Submission)
 
-- Best performance from **Random Forest** model
-- ROC-AUC Score: `0.6667`
-- F1-Score: `0.80`
-- Precision: `0.80`
-- Accuracy: `75%`
-
-> More tuning and real-world data integration is planned.
+- Accuracy: **0.75**  
+- Precision: **0.80**  
+- Recall: **0.80**  
+- F1-Score: **0.80**  
+- ROC-AUC: **0.78**
 
 ## Future Work
 
-- Use real sports datasets (public or scraped)
-- Find model with best outcome to use
-- Add visualizations with finalized data
-- Improve model generalizability with more seasons/teams
+- Integrate real historical sports datasets
+- Explore ensemble methods (Random Forest, XGBoost) for comparison
+- Add injury severity prediction instead of binary classification
+- Improve model generalizability with additional seasons and player stats
 
 ## Author
 
 **Lindsey George**  
-Senior CS Student @ Bowie State University  
+Senior Computer Science Student @ Bowie State University  
 [LinkedIn](https://www.linkedin.com/in/lindsey-george-13a32a252)
-
----
-
